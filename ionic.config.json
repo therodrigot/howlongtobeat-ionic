@@ -1,0 +1,8 @@
+{
+  "name": "hltb",
+  "app_id": "8010448b",
+  "type": "ionic-angular",
+  "integrations": {
+    "cordova": {}
+  }
+}
