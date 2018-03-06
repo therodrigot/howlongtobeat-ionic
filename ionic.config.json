@@ -4,5 +4,10 @@
   "type": "ionic-angular",
   "integrations": {
     "cordova": {}
-  }
+  },
+  "proxies": [
+  {
+    "path": "/url",
+    "proxyUrl": "https://howlongtobeat.com/search_main.php?page=1"
+  }]
 }

@@ -1,0 +1,67 @@
+page-game-details {
+    h3,
+    figure {
+        padding: 0;
+        margin: 0;
+    }
+    figure {
+        margin: auto;
+        max-width: 70%;
+    }
+    h3 {
+        text-align: center;
+    }
+    .card-wrapper {
+        ion-card:first-child {
+            .time-card-label {
+                font-weight: bold;
+            }
+        }
+        ion-card {
+            margin: 15px auto;
+            font-size: 16px;
+            border-radius: 10px;
+            text-align: center;
+            .time-card {
+                border-left-width: 10px;
+                border-left-style: solid;
+                &>div {
+                    padding: 15px 0;
+                }
+            }
+            .time-card-label {
+                background-color: #eee; // margin-bottom: .1em;
+            }
+            .time-card-time {
+                // width: 100%;
+            }
+        }
+    }
+    .time_100 {
+        border-color: #287fc2
+    }
+    .time_90 {
+        border-color: #3a6db5
+    }
+    .time_80 {
+        border-color: #485cab
+    }
+    .time_70 {
+        border-color: #5650a1
+    }
+    .time_60 {
+        border-color: #824985
+    }
+    .time_50 {
+        border-color: #cc3b51
+    }
+    .time_40 {
+        border-color: #ff3a3a
+    }
+    .time_30 {
+        border-color: #287fc2
+    }
+    .time_00 {
+        border-color: #999;
+    }
+}
