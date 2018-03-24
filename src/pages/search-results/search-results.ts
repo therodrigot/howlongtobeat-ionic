@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, IonicPage, NavParams } from 'ionic-angular';
+import { NavController, IonicPage, NavParams, Loading } from 'ionic-angular';
 import { HltbProvider } from '../../providers/hltb/hltb';
 import { GameDetailsPage } from '../game-details/game-details';
 
@@ -10,22 +10,28 @@ import { GameDetailsPage } from '../game-details/game-details';
 })
 export class SearchResultsPage {
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public hltbProvider: HltbProvider) {
+  private errorMsg: string;
+  private hasResult:boolean;
+  private loadingComponent:Loading;
+  private gameList:any;
+
+  constructor(
+    public navCtrl: NavController,
+    public navParams: NavParams,
+    public hltbProvider: HltbProvider,
+  ) {
+    this.loadingComponent = this.navParams.get("loading")
   }
-  private gameList;
 
   openDetails(game: Object) {
     this.navCtrl.push(GameDetailsPage, { game: game });
   }
 
-  ionViewDidEnter() {
-    this.hltbProvider.search().subscribe(() => {
-      this.gameList = this.hltbProvider.parsedData;
-    });
-  }
-
   ionViewDidLoad() {
-    console.log('ionViewDidLoad SearchResultsPage');
+    // console.log("ionViewDidLoad", this.hltbProvider.parsedData)
+    this.gameList = this.hltbProvider.parsedData["items"];
+    this.errorMsg = this.hltbProvider.errorMsg;
+    this.hasResult = this.gameList.length>0;
   }
 
 }

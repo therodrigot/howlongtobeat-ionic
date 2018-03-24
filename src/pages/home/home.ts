@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController } from 'ionic-angular';
+import { NavController, LoadingController, Loading } from 'ionic-angular';
 import { HltbProvider } from '../../providers/hltb/hltb';
 import * as $ from "jquery";
 import { GameDetailsPage } from '../game-details/game-details';
@@ -13,25 +13,45 @@ import { SearchResultsPage } from '../search-results/search-results';
 export class HomePage {
 
   constructor(
-    public navCtrl: NavController, 
-    public hltbProvider:HltbProvider
+    public navCtrl: NavController,
+    public hltbProvider: HltbProvider,
+    public loadingCtrl: LoadingController
   ) {}
 
-  private gameList;
+  private loadingComponent:Loading;
+  private searchInput:string ="zelda";
 
   openResults(){
-    this.navCtrl.push(SearchResultsPage, { search:'bloodborne' });
+    this._presentLoading();
+    this.hltbProvider.search(this.searchInput).subscribe(() => {
+      let gamesArray:Array<any> = this.hltbProvider.parsedData["items"];
+
+      if (gamesArray.length == 1) { //single result, go straight to game details
+        this.navCtrl.push(GameDetailsPage, { game: gamesArray[0] });
+      }
+      else { //multiple results go to search results
+        this.navCtrl.push(SearchResultsPage, { search: this.searchInput, loading:this.loadingComponent });
+      }
+
+      this.loadingComponent.dismiss();
+    });
   }
 
-  openDetails(game:Object){
+  openDetails(game: Object) {
     this.navCtrl.push(GameDetailsPage, { game: game });
   }
 
-  ionViewDidEnter(){
-    // this.hltbProvider.search().subscribe(()=>{
-    //   this.gameList = this.hltbProvider.parsedData;
-    //   console.log("!",this.gameList)
-    // });
+  private _presentLoading() {
+    this.loadingComponent = this.loadingCtrl.create({
+      content: 'Loading...',
+      spinner:"crescent",
+      // duration: 5000,
+      dismissOnPageChange: false
+    })
+    this.loadingComponent.present();
   }
+
+
+  ionViewDidEnter(){}
 
 }

@@ -64,4 +64,14 @@ page-game-details {
     .time_00 {
         border-color: #999;
     }
+    .spinner {
+        position: absolute;
+        left: 50%;
+        margin-left: -10px;
+        width: 20px;
+        height: 20px;
+        stroke: #444;
+        fill: #222;
+    }
+
 }

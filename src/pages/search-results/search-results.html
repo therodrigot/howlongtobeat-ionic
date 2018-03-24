@@ -6,14 +6,19 @@
 
 
 <ion-content>
-  <ion-list>
+  <ion-list *ngIf="hasResult">
     <ion-item *ngFor="let game of gameList" (click)="openDetails(game)">
       <ion-thumbnail item-start>
         <img src="{{game.image}}">
       </ion-thumbnail>
       <h2>{{game.name}}</h2>
+      <div>{{game.time[0].time}}</div>
     </ion-item>
   </ion-list>
 
-  
+  <ion-item *ngIf="!hasResult">
+    {{errorMsg}}
+  </ion-item>
+
+
 </ion-content>

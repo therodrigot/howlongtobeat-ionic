@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { HltbProvider } from '../../providers/hltb/hltb';
+
 
 /**
  * Generated class for the GameDetailsPage page.
@@ -16,15 +18,23 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 export class GameDetailsPage {
 
   public game: any;
+  public moreInfo:string;
 
-  constructor(public navCtrl: NavController, 
-    public navParams: NavParams) {
+  constructor(
+    public navCtrl: NavController,
+    public navParams: NavParams,
+    public hltb: HltbProvider
+  ) {
       this.game = navParams.data.game;
-      console.log(this.game);
+      // console.log(this.game);
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad GameDetailsPage');
+    this.hltb.loadMore(this.game.id).subscribe(()=>{
+      // console.log("loaded more")
+      this.moreInfo = this.hltb.moreInfo;
+    });
+    // console.log('ionViewDidLoad GameDetailsPage');
   }
 
 }

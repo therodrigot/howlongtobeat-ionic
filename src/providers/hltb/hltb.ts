@@ -1,87 +1,111 @@
-import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
 import * as $ from "jquery";
 
-
-/*
-  Generated class for the HltbProvider provider.
-
-  See https://angular.io/guide/dependency-injection for more info on providers
-  and Angular DI.
-*/
 @Injectable()
 export class HltbProvider {
 
-  parsedData: any;
-  private url: string ="https://howlongtobeat.com/search_main.php?page=1";
-  public result:any;
+	// private url: string = "https://howlongtobeat.com/search_main.php?page=1";
+	// private gameInfoUrl: string ="https://howlongtobeat.com/game.php";
+	private searchUrl: string = "/search";
+	private gameInfoUrl: string = "/game/game.php";
+	public parsedData:Object;
+	public result: any;
+	public errorMsg: string = '';
 
-  constructor(public http: HttpClient) {
-    console.log('Hello HltbProvider Provider');
-  }
+	constructor(public http: HttpClient) {
+		// console.log('Hello HltbProvider Provider');
+	}
 
-  public search(gameName:string='bloodborne'){
-    console.log("search");
-    var body:FormData = new FormData();
-    body.append('queryString',gameName);
-    body.append('t','games');
-    body.append('sorthead','popular');
-    body.append('sortd','Normal Order');
-    body.append('plat','');
-    body.append('length_type','main');
-    body.append('length_min','');
-    body.append('length_max','');
-    body.append('detail','');
-    body.append('plat','');
-// 
-    var headers = new HttpHeaders();
-    headers.append('Access-Control-Allow-Origin','*')
-    headers.append('Access','*/*')
-    var options:any = { 
-      'headers': headers,
-      'responseType': 'text'
-    };
+	public search(gameName: string) {
+		var body: FormData = new FormData();
+		body.append('queryString', gameName);
+		body.append('t', 'games');
+		body.append('sorthead', 'popular');
+		body.append('sortd', 'Normal Order');
 
-    this.url = "/url";
-    let s:any = new Subject()
-    let r = this.http.post(this.url, body, options)
-    r.subscribe(
-      (data) => {
-        this.result = data;
-        this.parsedData = this.parseSearchResult(data);
-        console.log("!!", data)
-        s.next(this.parsedData);
-      },
-      (error) => {console.log("error",error)}
-    );
-    return s;
-  }
+		var headers = new HttpHeaders();
+		headers.append('Access-Control-Allow-Origin', '*')
+		headers.append('Access', '*/*')
+		var options: object = {
+			'headers': headers,
+			'responseType': 'text'
+		};
 
+		let s: Subject<any> = new Subject()
+		let r = this.http.post(this.searchUrl, body, options)
+		r.subscribe(
+			(data) => {
+				this.errorMsg = '';
+				this.parsedData = [];
+				this.result = data;
 
-  private parseSearchResult(data){
-    let parsedItems = [];
-    let name, img, timeLabel, timeNumber, additionalData, timeData, timePrecision;
-    let items = $("<div/>").html(data).find("li");
+				if (String(data).indexOf("No results for ") >= 0) { //no results
+					this.errorMsg = $("<div/>").html(data).find("li").text();
+					s.next();
+				} else { //has results
+					this.parsedData = this.parseSearchResult(data);
+					s.next();
+				}
+			},
 
-    for (let i = 0; i < items.length; i++) {
-      name = $(items[i]).find(".search_list_details h3 a").text().trim();
-      img = $(items[i]).find(".search_list_image img").attr("src").trim();
-      timeData=[];
+			(error) => {/* console.log("error",error) */ }
 
-      additionalData = $(items[i]).find(".search_list_tidbit");
-      for (let j = 0; j < additionalData.length;j=j+2){
-        timeLabel = $(additionalData[j]).text();
-        timeNumber = $(additionalData[j + 1]).text();
-        timePrecision = $(additionalData[j + 1]).attr("class").toString().split(' ').pop().replace('time_', '');
-        timeData.push({ label: timeLabel, time: timeNumber, timePrecision:timePrecision})
-      }
+		);
+		return s;
+	}
 
-      parsedItems.push({name:name,image:img,time:timeData})
-    }
+	public moreInfo:string;
+	public loadMore(gameId:number){
+		let source, descr, moreinfo;
+		var options: object = {
+			'responseType': 'text',
+			'params':{ 'id': gameId }
+		};
 
-    return parsedItems
-    // console.log(this.parsedData)
-  }
+		let s: Subject<any> = new Subject()
+		let r = this.http.get(this.gameInfoUrl,options);
+			r.subscribe((data)=>{
+
+				source = $("<div/>").html(data).find("#global_site");
+				descr = $(source).find(".profile_header_alt").text().replace($(source).find("#profile_summary_more").text(),'');
+				moreinfo = descr;
+				moreinfo += $(source).find(".profile_info").parent().html();
+
+				this.moreInfo = moreinfo;
+				s.next();
+			}
+		)
+		return s;
+	}
+
+	private parseSearchResult(data):Object {
+		let parsedItems: Array<any> = [];
+		let name, id, img, timeLabel, timeNumber, additionalData, timeData, timePrecision;
+		let source = $("<div/>").html(data);
+		let items = $(source).find("li");
+		let searchHead = $(source).find("h3").first().text();
+
+		for (let i = 0; i < items.length; i++) {
+			name = $(items[i]).find(".search_list_details h3 a").text().trim();
+			id = $(items[i]).find(".search_list_details h3 a").attr("href").replace("game.php?id=", '');
+			img = $(items[i]).find(".search_list_image img").attr("src").trim();
+			timeData = [];
+
+			additionalData = $(items[i]).find(".search_list_tidbit");
+			for (let j = 0; j < additionalData.length; j = j + 2) {
+				timeLabel = $(additionalData[j]).text();
+				timeNumber = $(additionalData[j + 1]).text();
+				timePrecision = $(additionalData[j + 1]).attr("class").toString().split(' ').pop().replace('time_', '');
+				timeData.push({ label: timeLabel, time: timeNumber, timePrecision: timePrecision })
+			}
+
+			parsedItems.push({ id: id, name: name, image: img, time: timeData })
+		}
+
+		return {'head':searchHead, 'items':parsedItems};
+		// console.log(this.parsedData)
+	}
+
 }

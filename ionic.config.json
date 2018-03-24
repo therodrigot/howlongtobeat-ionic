@@ -6,8 +6,13 @@
     "cordova": {}
   },
   "proxies": [
-  {
-    "path": "/url",
-    "proxyUrl": "https://howlongtobeat.com/search_main.php?page=1"
-  }]
+    {
+      "path": "*/game",
+      "proxyUrl": "https://howlongtobeat.com/"
+    },
+    {
+      "path": "*/search",
+      "proxyUrl": "https://howlongtobeat.com/search_main.php?page=1"
+    }
+  ]
 }
