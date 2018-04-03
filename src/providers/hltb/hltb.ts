@@ -93,7 +93,7 @@ export class HltbProvider {
 			img = $(items[i]).find(".search_list_image img").attr("src").trim();
 			timeData = [];
 
-			additionalData = $(items[i]).find(".search_list_tidbit");
+			additionalData = $(items[i]).find(".search_list_tidbit,.search_list_tidbit_short,.search_list_tidbit_long");
 			for (let j = 0; j < additionalData.length; j = j + 2) {
 				timeLabel = $(additionalData[j]).text();
 				timeNumber = $(additionalData[j + 1]).text();
@@ -101,7 +101,7 @@ export class HltbProvider {
 				timeData.push({ label: timeLabel, time: timeNumber, timePrecision: timePrecision })
 			}
 
-			parsedItems.push({ id: id, name: name, image: img, time: timeData })
+			parsedItems.push({ id: id, name: name, image: img, time: timeData, maintime:(timeData[0] && timeData[0].time) ? timeData[0].time : undefined })
 		}
 
 		return {'head':searchHead, 'items':parsedItems};

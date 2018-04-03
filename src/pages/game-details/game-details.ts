@@ -19,6 +19,7 @@ export class GameDetailsPage {
 
   public game: any;
   public moreInfo:string;
+  public openedInfo:boolean=false;
 
   constructor(
     public navCtrl: NavController,
@@ -29,12 +30,17 @@ export class GameDetailsPage {
       // console.log(this.game);
   }
 
+  openInfo(){
+    this.openedInfo = true;
+  }
+  closeInfo(){
+    this.openedInfo = false;
+  }
+
   ionViewDidLoad() {
     this.hltb.loadMore(this.game.id).subscribe(()=>{
-      // console.log("loaded more")
       this.moreInfo = this.hltb.moreInfo;
     });
-    // console.log('ionViewDidLoad GameDetailsPage');
   }
 
 }

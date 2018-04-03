@@ -1,12 +1,5 @@
-<ion-header>
-  <ion-navbar>
-    <ion-title>Home</ion-title>
-  </ion-navbar>
-</ion-header>
-
-
 <ion-content>
-  <!-- <ion-list>
+	<!-- <ion-list>
     <ion-item *ngFor="let game of gameList" (click)="openDetails(game)">
       <ion-thumbnail item-start>
         <img src="{{game.image}}">
@@ -14,14 +7,14 @@
       <h2>{{game.name}}</h2>
     </ion-item>
   </ion-list> -->
+	<h1>HowLongToBeat</h1>
 
+	<ion-list class="ionlist">
+		<ion-item id="ionItem">
+			<ion-input id="searchInput" placeholder="Search your favorite game..." [(ngModel)]="searchInput"></ion-input>
+		</ion-item>
+	</ion-list>
 
-  <ion-list>
-    <ion-item>
-      <ion-input placeholder="Search your favorite game..." [(ngModel)]="searchInput" clearInput></ion-input>
-    </ion-item>
-  </ion-list>
-
-  <button ion-button (click)="openResults()">Submit</button>
+	<button id="submitButton" ion-button (click)="openResults()">Submit</button>
 
 </ion-content>

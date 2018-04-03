@@ -10,15 +10,26 @@
 	</ion-navbar>
 </ion-header>
 
-<ion-content padding *ngIf="game">
-	<figure><img src="{{game.image}}" alt="" /></figure>
+<ion-content *ngIf="game">
+	<div class="background">
+		<div class="backgroundBase" [style.backgroundImage]="'url('+game.image+')'"></div>
+		<figure>
+			<img src="{{game.image}}" alt="" />
+		</figure>
+	</div>
 	<h3>{{game.name}}</h3>
 
-	<ion-grid>
+	<ion-grid no-padding>
+		<ion-row no-padding>
+			<ion-col no-padding ngClass="moreinfowrapper {{openedInfo ? 'active' : ''}}">
+				<ion-spinner ngClass="spinner" *ngIf="!moreInfo"></ion-spinner>
+				<div class="moreinfo" [innerHTML]="moreInfo"></div>
+			</ion-col>
+		</ion-row>
 		<ion-row>
-			<ion-col>
-				<ion-spinner class="spinner" *ngIf="!moreInfo"></ion-spinner>
-				<div [innerHTML]="moreInfo"></div>
+			<ion-col ngClass="buttonwrapper">
+				<button (click)="openInfo()" *ngIf="!openedInfo"><ion-icon name="ios-arrow-down"></ion-icon></button>
+				<button (click)="closeInfo()" *ngIf="openedInfo"><ion-icon name="ios-arrow-up"></ion-icon></button>
 			</ion-col>
 		</ion-row>
 	</ion-grid>
@@ -28,11 +39,13 @@
 	</div> -->
 
 	<div class="card-wrapper">
-		<ion-card class="times" *ngFor="let gametime of game.time">
-			<div class="time-card time_{{gametime.timePrecision}}">
-				<div class="time-card-label">{{gametime.label}}</div>
-				<div class="time-card-time">{{gametime.time}}</div>
-			</div>
+		<ion-card class="times" *ngFor="let gametime of game.time" ngClass="time_{{gametime.timePrecision}}">
+			<ion-grid>
+				<ion-row>
+					<ion-col class="time-card-label">{{gametime.label}}</ion-col>
+					<ion-col class="time-card-time">{{gametime.time}}</ion-col>
+				</ion-row>
+			</ion-grid>
 		</ion-card>
 	</div>
 

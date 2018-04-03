@@ -1,20 +1,56 @@
 <ion-header>
   <ion-navbar>
-    <ion-title>Search</ion-title>
+    <ion-title class="title">Search</ion-title>
   </ion-navbar>
 </ion-header>
 
 
 <ion-content>
+
+  <div class="searchMessage">{{searchMessage}}</div>
+
   <ion-list *ngIf="hasResult">
-    <ion-item *ngFor="let game of gameList" (click)="openDetails(game)">
-      <ion-thumbnail item-start>
-        <img src="{{game.image}}">
-      </ion-thumbnail>
-      <h2>{{game.name}}</h2>
-      <div>{{game.time[0].time}}</div>
-    </ion-item>
+    <ion-card *ngFor="let game of gameList" (click)="openDetails(game)">
+
+      <ion-grid>
+        <ion-row>
+          <ion-col col-3>
+
+            <ion-thumbnail item-start>
+              <figure>
+                <img src="{{game.image}}">
+              </figure>
+            </ion-thumbnail>
+
+          </ion-col>
+          <ion-col col-7>
+
+            <div class="info">
+              <h2>{{game.name}}</h2>
+              <div class="time" *ngIf="game.maintime">{{game.maintime}}</div>
+            </div>
+
+
+          </ion-col>
+          <ion-col col-2>
+            <ion-item class="iconwrapper" text-right>
+            <button ion-button icon-right>
+              <ion-icon class="icon" name="ios-arrow-forward"></ion-icon>
+            </button>
+            </ion-item>
+
+          </ion-col>
+
+        </ion-row>
+      </ion-grid>
+
+
+
+      <!-- <ion-item right text-right> -->
+      <!-- </ion-item> -->
+    </ion-card>
   </ion-list>
+
 
   <ion-item *ngIf="!hasResult">
     {{errorMsg}}

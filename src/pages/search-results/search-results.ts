@@ -10,10 +10,12 @@ import { GameDetailsPage } from '../game-details/game-details';
 })
 export class SearchResultsPage {
 
+  searchMessage: any;
   private errorMsg: string;
   private hasResult:boolean;
   private loadingComponent:Loading;
   private gameList:any;
+  private debug:any;
 
   constructor(
     public navCtrl: NavController,
@@ -24,14 +26,17 @@ export class SearchResultsPage {
   }
 
   openDetails(game: Object) {
+    // console.log(game);
+    console.log(game.name,game.maintime);
     this.navCtrl.push(GameDetailsPage, { game: game });
   }
 
   ionViewDidLoad() {
-    // console.log("ionViewDidLoad", this.hltbProvider.parsedData)
+    this.searchMessage = this.hltbProvider.parsedData["head"];
     this.gameList = this.hltbProvider.parsedData["items"];
     this.errorMsg = this.hltbProvider.errorMsg;
     this.hasResult = this.gameList.length>0;
+    console.log("ionViewDidLoad", this.gameList)
   }
 
 }

@@ -1,38 +1,45 @@
 page-home {
-    ion-label,
-    .label-ios {
-        white-space: normal;
-    }
-    ion-card {
-        display: flex;
-        width: 100%;
-        overflow: hidden;
-        figure {
-            padding: 0;
-            margin: 0;
-            flex: 0 0 35%;
-            img {
-                width: 100%;
-                height: auto;
-            }
-        }
-    }
-    ion-card-header,
-    .card-header-ios {
-        font-weight: bold;
-        font-size: 18px;
-        padding: 5px 0;
-        margin: 0;
-        white-space: normal;
-        line-height: 1.1;
-    }
-    ion-card-content,
-    .card-content-ios {
-        flex: 1 0 65%;
-        justify-content: flex-start;
-        align-self: flex-start;
-        align-content: flex-start;
-        padding: 5px 10px;
-        max-width: 100%;
-    }
+	h1 {
+		font-family: forque;
+		font-size:16vw;
+		padding-top: 60px;
+		padding-bottom: 90px;
+		text-align: center;
+		color: white;
+	}
+	ion-content {
+		background: linear-gradient(180deg, #334A7D 0%, #328ED6 75.69%);
+	}
+	.ionlist {
+		padding: 0 31px;
+	}
+
+	#ionItem{
+		background: transparent;
+		border: none;
+		box-shadow: none;
+		border-bottom:1px solid #F2F2F2;
+		padding: 0;
+		margin-bottom: 43px;
+	}
+	#searchInput {
+		background: transparent;
+		border: none !important;
+		box-shadow: none;
+		color:white;
+		::placeholder {color:rgba(#fff,.4)}
+	}
+	#submitButton {
+		border-radius: 0;
+		width: 100%;
+		background-color: color($colors, secondary);
+		border:none;
+		box-shadow: none;
+		height: 47px;
+		margin: 0;
+		font-family: Roboto;
+		font-weight: bold;
+		font-size: 15px;
+		text-transform: uppercase;
+	}
 }

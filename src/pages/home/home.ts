@@ -19,7 +19,7 @@ export class HomePage {
   ) {}
 
   private loadingComponent:Loading;
-  private searchInput:string ="zelda";
+  private searchInput:string ="";
 
   openResults(){
     this._presentLoading();
