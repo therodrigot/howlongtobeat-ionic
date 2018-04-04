@@ -15,7 +15,6 @@ export class SearchResultsPage {
   private hasResult:boolean;
   private loadingComponent:Loading;
   private gameList:any;
-  private debug:any;
 
   constructor(
     public navCtrl: NavController,
@@ -27,7 +26,7 @@ export class SearchResultsPage {
 
   openDetails(game: Object) {
     // console.log(game);
-    console.log(game.name,game.maintime);
+    // console.log(game.name,game.maintime);
     this.navCtrl.push(GameDetailsPage, { game: game });
   }
 

@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { NavController, LoadingController, Loading } from 'ionic-angular';
 import { HltbProvider } from '../../providers/hltb/hltb';
-import * as $ from "jquery";
 import { GameDetailsPage } from '../game-details/game-details';
 import { SearchResultsPage } from '../search-results/search-results';
 
