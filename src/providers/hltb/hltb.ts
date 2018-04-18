@@ -2,20 +2,25 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs/Subject';
 import * as $ from "jquery";
+import { Platform } from 'ionic-angular';
 
 @Injectable()
 export class HltbProvider {
 
-	// private url: string = "https://howlongtobeat.com/search_main.php?page=1";
-	// private gameInfoUrl: string ="https://howlongtobeat.com/game.php";
-	private searchUrl: string = "/search";
-	private gameInfoUrl: string = "/game/game.php";
+	private searchUrl: string = "https://howlongtobeat.com/search_main.php?page=1";
+	private gameInfoUrl: string ="https://howlongtobeat.com/game.php";
+	// private searchUrl: string = "/search";
+	// private gameInfoUrl: string = "/game/game.php";
 	public parsedData:Object;
 	public result: any;
 	public errorMsg: string = '';
 
-	constructor(public http: HttpClient) {
-		// console.log('Hello HltbProvider Provider');
+	constructor(public http: HttpClient,public plt: Platform) {
+		// console.log('Hello HltbProvider Provider',this.plt.platforms());
+		// if(this.plt.is('core')){
+		// 	this.searchUrl = "/search";
+		// 	this.gameInfoUrl = "/game/game.php";
+		// }
 	}
 
 	public search(gameName: string) {
